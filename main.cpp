@@ -59,7 +59,6 @@ int main() {
             std::cout << "Invalid input for maximum power"<<std::endl;
         }
         else{
-
             for (int i=0; i<=max_pow; i++){
             std::cout<<"Enter coefficient of x^" << i << " and press ENTER" << std::endl;
             double coeff;
@@ -106,7 +105,12 @@ int main() {
                 // Calculating results of ODE in case of implicit Euler method
                 else {
                     std::cout << "Calculating solution of user defined ODE with implicit Euler method" << std::endl;
-                    std::cout << "NOT IMPLEMENTED YET" << std::endl;
+                    std::vector<double> num_sol;
+
+                    // Deriving "Imp_Euler" method from abstract "Solver" base class
+                    Imp_Euler *imp = new Imp_Euler(solve);
+                    imp->solver_ode(num_sol);
+                    imp->write_csv(num_sol, "implicit_euler_ODE.csv");
                 }
             }
             else{
@@ -136,13 +140,18 @@ int main() {
             // Calculating results of ODE in case of implicit Euler method
             else {
                 std::cout << "Calculating solution of default ODE in code with implicit Euler method" << std::endl;
-                std::cout << "NOT IMPLEMENTED YET" << std::endl;
+                std::vector<double> num_sol;
+
+                // Deriving "Imp_Euler" method from abstract "Solver" base class
+                Imp_Euler *imp = new Imp_Euler(solve);
+                imp->solver_ode(num_sol);
+                imp->write_csv(num_sol, "implicit_euler_ODE.csv");
             }
         }
         else{
             std::cout << "Input parameters are incorrect!" << std::endl;
         }
     }
-    
+
     return 0;
 }

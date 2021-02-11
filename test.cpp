@@ -26,9 +26,9 @@
     // Initial value in t0
     double p0 = 20;
     // Step size (> 0)
-    double step_size = 0.0625;
+    double step_size = 0.125;
     // Tolerance for the accuracy
-    double tolerance = 2;
+    double tolerance = 10;
 
     // Maximum power of polynom, input parameter of runtime defined ODE (needed to define func)
     int max_pow;
@@ -57,5 +57,19 @@ TEST_CASE("Testing numerical methods"){
         REQUIRE(exp->accuracy(num_sol, analytical_sol) < tolerance); 
 
         std::cout << "Explicit Euler is accurate with step_size = " << step_size << std::endl;
+    }
+
+    SECTION("Testing accuracy of implicit Euler method"){
+
+        std::vector<double> num_sol;
+
+        // Deriving "Imp_Euler" method from abstract "Solver" base class
+        Imp_Euler *imp = new Imp_Euler(solve);
+        
+        imp->solver_ode(num_sol);
+
+        REQUIRE(imp->accuracy(num_sol, analytical_sol) < tolerance); 
+
+        std::cout << "Implicit Euler is accurate with step_size = " << step_size << std::endl;
     }
 }

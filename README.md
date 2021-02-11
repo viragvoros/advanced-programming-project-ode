@@ -3,7 +3,7 @@
 ## Sprint 1
 
 The solver can solve first order ODEs either specified directly in the code as lamdba function ( in code mode - *Press 0* ) or defined at runtime via keyboard ( user defined mode - *Press 1* ).
-The project contains an ODE solver, which is used through an abstract base class "Solver". The ODE can be solved with explicit Euler method ( *Press 0* ) and with implicit Euler method ( *Press 1* ).
+The project contains an ODE solver, which is used through an abstract base class "Solver". The ODE can be solved with explicit Euler method (*Press 0*) and with implicit Euler method ( *Press 1* ).
 "Exp_ Euler" class is derived from the base class using the same interface, "Exp_ Euler" class is going to be implemented in Sprint 2.
 
 The user defined mode can solve non-time-dependent first order ODEs in the form `x' = a + bx + cx^2 + ... + mx^n`, where n is the maximum power and `a, b, c,..., n` are the coefficients. In user defined mode, additional parameters (initial time, end time, initial value of x in t0, time step size) are provided by the user via keyboard as well.
@@ -47,4 +47,44 @@ Calculating solution of user defined ODE with explicit Euler method
 ```
 The program will provide a file named "explicit_ euler_ODE.csv" with time and x values in two colums, while invalid inputs result in an error message and the programm stops.
 To use the testing function, instead of `./main` command `./tests` command can be used on the terminal.
+
+## Sprint 2
+
+In this sprint, the solver was extended to be able to solve ODEs with implicit Euler scheme. The discretization scheme / solver was encapsulated into a class, deriving from an abstract base class, which all the schemes share.
+The main() function accesses the solvers through an interface common to all solvers. The scheme is configurable at runtime through keyboard or it can be modified in the code. The results are written into a file.
+
+Unit tests were implemented, similarly to "Exp_Euler" in Sprint 1, now "Imp_Euler" is tested as well with analytical solutions using `./tests` command.
+
+To solve ODEs with implicit Euler method, a root-finding algorithm was needed, namely secant method was used in this project. Secant method was implemented as a new function of class "Imp_Euler".
+New solvers have to be generally defined in `solver.h` header file and they have to be derived from "Solver" class:
+```
+class New_Solver: public Solver{
+    public:
+        New_Solver() : Solver(){}
+        New_Solver(Solver &solve) : Solver(solve){}
+        ~New_Solver(){};
+
+        void solver_ode(std::vector<double> &num_sol) override;
+        void new_method();
+};
+```
+its methods are implemented in `solver.cpp` file:
+```
+void New_Solver::solver_ode(std::vector<double> &num_sol)
+    {
+    // insert implementation here
+    }
+    
+void New_Solver::new_method()
+    {
+    // insert implementation here
+    }
+```
+and they can be called both in `main.cpp` and in `test.cpp` with the corresponding name e.g `New_Solver::new_method`.
+
+## Sprint 3
+
+In this sprint, the code was generally "cleaned up" and improved. The performance was investigated and the findings and observations were presented `in performance.md`.
+
+
 

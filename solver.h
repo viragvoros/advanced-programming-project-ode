@@ -40,4 +40,16 @@ class Exp_Euler: public Solver{
         void solver_ode(std::vector<double> &num_sol) override;
 };
 
+// Backward (implicit) Euler method
+class Imp_Euler: public Solver{
+    public:
+        Imp_Euler(std::function<double(double p, double t, int &max_pow, std::vector<double> &coefficients)> &func, double &t_init, double &t_end, double &step_size, double &p0, 
+                int &max_pow, std::vector<double> &coefficients) : Solver(func, t_init, t_end, step_size, p0, max_pow, coefficients){}
+        Imp_Euler(Solver &solve) : Solver(solve){}
+        ~Imp_Euler(){};
+
+        void solver_ode(std::vector<double> &num_sol) override;
+        double secant(double &p0, double &p1, int &max_iter, double &tol, double &t);
+};
+
 #endif
