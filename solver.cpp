@@ -66,12 +66,14 @@ void Imp_Euler::solver_ode(std::vector<double> &num_sol){
 // Calculating accuracy of the solver
 double Solver::accuracy(std::vector<double> &num_sol, std::function<double(double&)> &analytical_sol){
     double error = 0;
+    double error_sqr = 0;
     double t = _t_init;
     for (auto elem : num_sol){
-        error += (elem - analytical_sol(t)) * (elem - analytical_sol(t));
+        error = (elem - analytical_sol(t));
+        error_sqr += error*error;
         t += _step_size;
     }
-    return std::sqrt((_step_size / _t_end) * error);
+    return std::sqrt((_step_size / _t_end) * error_sqr);
 }
 
 // Saving results to a .csv file
